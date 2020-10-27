@@ -72,6 +72,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     Padding(
+                      padding: const EdgeInsets.only(right: 32.0, top: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            'Daily',
+                            style: TextStyle(fontSize: 24.0),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Card(
                         elevation: 8.0,
@@ -81,6 +93,57 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: getList(),
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 32.0, top: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            'Weekly',
+                            style: TextStyle(fontSize: 24.0),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Card(
+                        elevation: 8.0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(12.0))),
+                        child: getList(),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 32.0, top: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            'Monthly',
+                            style: TextStyle(fontSize: 24.0),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Card(
+                        elevation: 8.0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(12.0))),
+                        child: getList(),
+                      ),
+                    ),
+                    SizedBox(height: 50.0),
+                    Text('Built with Flutter ❤️',
+                        style: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w300,
+                            color: Colors.grey.withOpacity(0.5))),
+                    SizedBox(height: 50.0),
                   ],
                 )),
           ),

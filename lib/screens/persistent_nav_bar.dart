@@ -13,6 +13,13 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   PersistentTabController _controller =
       PersistentTabController(initialIndex: 0);
+  bool navBar = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return PersistentTabView(
@@ -23,6 +30,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       backgroundColor: Colors.white,
       hideNavigationBarWhenKeyboardShows: true,
       resizeToAvoidBottomInset: true,
+      hideNavigationBar: navBar,
       navBarStyle: NavBarStyle.style1,
       itemAnimationProperties: ItemAnimationProperties(
         // Navigation Bar's items animation properties.

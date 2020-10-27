@@ -16,7 +16,13 @@ showCustomDialogAndroid(BuildContext context, String msg) {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text(msg, style: TextStyle()), // TODO: Info Style
+                  Text(msg, style: TextStyle()),
+                  FlatButton(
+                    child: Text('OK'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ), 
                 ],
               ),
             ),

@@ -30,11 +30,13 @@ void save(
   } else {
     if (Platform.isAndroid) {
       showCustomDialogAndroid(context, 'Failed');
-    } else {}
-    showCustomDialogiOS(context, 'Task successfully created');
+    } else {
+      showCustomDialogiOS(context, 'Failed');
+    }
   }
 }
 
-  Future<int> delete(BuildContext context, Task todo, DatabaseHelper databaseHelper) async {
-    return await databaseHelper.deleteTodo(todo.id);
-  }
+Future<int> delete(
+    BuildContext context, Task todo, DatabaseHelper databaseHelper) async {
+  return await databaseHelper.deleteTodo(todo.id);
+}

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:task_manager/classes/database_helper.dart';
 import 'package:task_manager/classes/task.dart';
@@ -5,6 +7,8 @@ import 'package:task_manager/constants/database_functions.dart';
 import 'package:chips_choice/chips_choice.dart';
 
 class AddTaskScreen extends StatefulWidget {
+  final Function toggleNavBar;
+  AddTaskScreen({this.toggleNavBar});
   @override
   _AddTaskScreenState createState() => _AddTaskScreenState();
 }
@@ -15,8 +19,19 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   String newTaskTitle;
   String newTaskDesc;
 
+  TextEditingController controllerDesc = new TextEditingController();
+  TextEditingController controllerTitle = new TextEditingController();
+
   List<String> options = ['Daily', 'Weekly', 'Monthly'];
   int tag = 0;
+
+  @override
+  void dispose() {
+    controllerDesc.dispose();
+    controllerTitle.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -39,6 +54,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
+                  controller: controllerTitle,
                   onChanged: (newText) {
                     newTaskTitle = newText;
                   },
@@ -53,6 +69,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
+                  controller: controllerDesc,
                   onChanged: (newText) {
                     newTaskDesc = newText;
                   },
