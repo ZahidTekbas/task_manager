@@ -13,7 +13,7 @@ class DatabaseHelper {
   String colName = 'name';
   String colDesc = 'description';
   String colDate = 'date';
-  String colBool = 'isChecked';
+  String colType = 'type';
 
   DatabaseHelper._createInstance(); // Named constructor to create instance of DatabaseHelper
 
@@ -45,7 +45,7 @@ class DatabaseHelper {
 
   void _createDb(Database db, int newVersion) async {
     await db.execute(
-        'CREATE TABLE $todoTable($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colName TEXT, $colDesc TEXT, $colBool TEXT, $colDate TEXT)');
+        'CREATE TABLE $todoTable($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colName TEXT, $colDesc TEXT, $colType TEXT, $colDate INTEGER)');
   }
 
   // Fetch Operation: Get all todo objects from database

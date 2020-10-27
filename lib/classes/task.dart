@@ -2,14 +2,11 @@ class Task {
   int id;
   String name;
   String description;
-  String date;
+  int date;
+  String type;
   bool isChecked;
 
-  Task({this.name, this.isChecked = false, this.date, this.description});
-  Task.withId(
-      {this.id, this.description, this.name, this.isChecked, this.date});
-  Task.withoutDate(
-      {this.id, this.name, this.isChecked = false, this.description});
+  Task({this.id ,this.name, this.date, this.type, this.description});
 
   void toggleDone() {
     isChecked = !isChecked;
@@ -27,7 +24,7 @@ class Task {
     this.isChecked = value;
   }
 
-  void setDate(String date) {
+  void setDate(int date) {
     this.date = date;
   }
 
@@ -60,11 +57,12 @@ class Task {
     if (id != null) {
       map['id'] = id;
     }
-    map['isChecked'] = 'false';
     map['name'] = name;
     if (date != null) {
       map['date'] = date;
     }
+    map['description'] = description;
+    map['type'] = type;
 
     return map;
   }
@@ -72,7 +70,8 @@ class Task {
   Task.fromMapObject(Map<String, dynamic> map) {
     this.id = map['id'];
     this.name = map['name'];
-    this.isChecked = false;
     this.date = map['date'];
+    this.type = map['type'];
+    this.description = map['description'];
   }
 }

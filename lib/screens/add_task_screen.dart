@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:task_manager/classes/database_helper.dart';
 import 'package:task_manager/classes/task.dart';
 import 'package:task_manager/constants/database_functions.dart';
+import 'package:chips_choice/chips_choice.dart';
 
 class AddTaskScreen extends StatefulWidget {
   @override
@@ -13,6 +14,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
   String newTaskTitle;
   String newTaskDesc;
+
+  List<String> options = ['Daily', 'Weekly', 'Monthly'];
+  int tag = 0;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -42,7 +46,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   textAlign: TextAlign.start,
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: 'New Task',
+                    hintText: 'Task Title ',
                   ),
                 ),
               ),
@@ -50,27 +54,25 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
                   onChanged: (newText) {
-                    newTaskTitle = newText;
+                    newTaskDesc = newText;
                   },
                   autofocus: true,
                   textAlign: TextAlign.start,
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: 'New Task',
+                    hintText: 'Description ',
                   ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  onChanged: (newText) {
-                    newTaskTitle = newText;
-                  },
-                  autofocus: true,
-                  textAlign: TextAlign.start,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'New Task',
+                child: ChipsChoice.single(
+                  value: tag,
+                  onChanged: (val) => setState(() => tag = val),
+                  choiceItems: C2Choice.listFrom<int, String>(
+                    source: options,
+                    value: (i, v) => i,
+                    label: (i, v) => v,
                   ),
                 ),
               ),
@@ -93,8 +95,23 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         borderRadius: BorderRadius.all(Radius.circular(12))),
                     child: Icon(Icons.save, size: 32.0, color: Colors.white),
                     onPressed: () {
-                      Task task = new Task(name: newTaskTitle, isChecked: false);
+                      int date;
+                      if (options[tag] == 'Daily') {
+                        date = DateTime.now().day;
+                      }
+                      if (options[tag] == 'Weekly') {
+                        date = DateTime.now().day;
+                      }
+                      if (options[tag] == 'Monthly') {
+                        date = DateTime.now().month;
+                      }
+                      Task task = new Task(
+                          name: newTaskTitle,
+                          description: newTaskDesc,
+                          type: options[tag],
+                          date: date);
                       save(task, context, databaseHelper);
+                      Navigator.pop(context);
                     },
                   ),
                 ],
