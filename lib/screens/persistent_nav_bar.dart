@@ -21,12 +21,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
       items: _navBarsItems(),
       confineInSafeArea: true,
       backgroundColor: Colors.white,
-      hideNavigationBarWhenKeyboardShows:
-          true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument.
-
-      resizeToAvoidBottomInset:
-          true, // This needs to be true if you want to move up the screen when keyboard appears.
-
+      hideNavigationBarWhenKeyboardShows: true,
+      resizeToAvoidBottomInset: true,
       navBarStyle: NavBarStyle.style1,
       itemAnimationProperties: ItemAnimationProperties(
         // Navigation Bar's items animation properties.
