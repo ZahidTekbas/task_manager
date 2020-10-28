@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/constants/theme.dart';
 
 class TaskTile extends StatelessWidget {
   final bool isChecked;
@@ -18,15 +19,14 @@ class TaskTile extends StatelessWidget {
       onLongPress: longPressCallback,
       title: Text(
         taskTitle,
-        style: TextStyle(
-            decoration: isChecked ? TextDecoration.lineThrough : null),
+        style: darkThemeEnabled ? tileStyleDark : tileStyleLight , 
       ),
       trailing: Checkbox(
         activeColor: Colors.lightBlueAccent,
         value: isChecked,
         onChanged: checkboxCallback,
       ),
-      leading: Icon(Icons.touch_app) // TODO: Dynamic Icon
+      leading: Icon(Icons.touch_app, color: darkThemeEnabled ? iconColorLight : iconColorDark) // TODO: Dynamic Icon
     );
   }
 }

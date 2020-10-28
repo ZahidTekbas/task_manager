@@ -21,3 +21,18 @@ Future<String> getUserName() async {
   print(name);
   return name;
 }
+
+void setDarkThemeChoice(bool value) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setBool('darkTheme', value);
+}
+
+Future <bool> getDarkThemeChoice() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  if(prefs.containsKey('darkTheme')){
+    return await prefs.getBool('darkTheme');
+  }
+  else{
+    return false;
+  }
+}

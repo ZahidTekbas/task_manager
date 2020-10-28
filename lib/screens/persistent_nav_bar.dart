@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:task_manager/constants/theme.dart';
 import 'package:task_manager/screens/home_screen.dart';
 import 'package:task_manager/screens/settings_screen.dart';
 
@@ -26,7 +27,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       screens: _screens(),
       items: _navBarsItems(),
       confineInSafeArea: true,
-      backgroundColor: Colors.white,
+      backgroundColor: darkThemeEnabled ? backgroundColorDark : backgroundColorLight,
       hideNavigationBarWhenKeyboardShows: true,
       resizeToAvoidBottomInset: true,
       hideNavigationBar: navBar,

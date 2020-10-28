@@ -1,9 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:task_manager/classes/database_helper.dart';
 import 'package:task_manager/classes/task.dart';
 import 'package:task_manager/constants/database_functions.dart';
 import 'package:chips_choice/chips_choice.dart';
+import 'package:task_manager/constants/theme.dart';
 
 class AddTaskScreen extends StatefulWidget {
   final Function toggleNavBar;
@@ -34,6 +34,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor:
+          darkThemeEnabled ? backgroundColorDark : backgroundColorLight,
       resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -63,7 +65,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     textAlign: TextAlign.start,
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'Task Title ',
+                      hintText: 'Task Title',
+                      hintStyle:
+                          darkThemeEnabled ? tileStyleDark : tileStyleLight,
                     ),
                   ),
                 ),
@@ -79,6 +83,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: 'Description ',
+                      hintStyle:
+                          darkThemeEnabled ? tileStyleDark : tileStyleLight,
                     ),
                   ),
                 ),
@@ -99,6 +105,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     FloatingActionButton(
+                      backgroundColor:
+                          darkThemeEnabled ? fabButtonDark : fabButtonLight,
                       heroTag: "btn2",
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(12))),
@@ -109,6 +117,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       },
                     ),
                     FloatingActionButton(
+                      backgroundColor:
+                          darkThemeEnabled ? fabButtonDark : fabButtonLight,
                       heroTag: "btn3",
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(12))),

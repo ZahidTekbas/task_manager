@@ -60,9 +60,15 @@ class _HomeScreenState extends State<HomeScreen> {
     if (monthlyTasks == null) {
       monthlyTasks = List<Task>();
     }
+    if (darkThemeEnabled == true) {
+      setState(() {});
+    }
     return Scaffold(
+      backgroundColor:
+          darkThemeEnabled ? backgroundColorDark : backgroundColorLight,
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       floatingActionButton: FloatingActionButton(
+        backgroundColor: darkThemeEnabled ? fabButtonDark : fabButtonLight,
         elevation: 8.0,
         heroTag: "btn1",
         shape: RoundedRectangleBorder(
@@ -107,7 +113,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Text(
                             'Upcoming Tasks',
-                            style: TextStyle(fontSize: 32.0),
+                            style: darkThemeEnabled
+                                ? headerStyleDark
+                                : headerStyleLight,
                           ),
                         ],
                       ),
@@ -119,7 +127,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Text(
                             'Daily',
-                            style: TextStyle(fontSize: 24.0),
+                            style: darkThemeEnabled
+                                ? headerTwoStyleDark
+                                : headerTwoStyleLight,
                           ),
                         ],
                       ),
@@ -127,6 +137,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Card(
+                          color:
+                              darkThemeEnabled ? cardColorDark : cardColorLight,
                           elevation: 8.0,
                           shape: RoundedRectangleBorder(
                               borderRadius:
@@ -140,7 +152,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Text(
                             'Weekly',
-                            style: TextStyle(fontSize: 24.0),
+                            style: darkThemeEnabled
+                                ? headerTwoStyleDark
+                                : headerTwoStyleLight,
                           ),
                         ],
                       ),
@@ -148,6 +162,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Card(
+                          color:
+                              darkThemeEnabled ? cardColorDark : cardColorLight,
                           elevation: 8.0,
                           shape: RoundedRectangleBorder(
                               borderRadius:
@@ -161,7 +177,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Text(
                             'Monthly',
-                            style: TextStyle(fontSize: 24.0),
+                            style: darkThemeEnabled
+                                ? headerTwoStyleDark
+                                : headerTwoStyleLight,
                           ),
                         ],
                       ),
@@ -169,6 +187,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Card(
+                          color:
+                              darkThemeEnabled ? cardColorDark : cardColorLight,
                           elevation: 8.0,
                           shape: RoundedRectangleBorder(
                               borderRadius:
@@ -206,9 +226,10 @@ class _HomeScreenState extends State<HomeScreen> {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.warning),
+          Icon(Icons.warning,
+              color: darkThemeEnabled ? iconColorLight : iconColorDark),
           Text('No tasks found in the list',
-              style: TextStyle(fontSize: 14.0)),
+              style: darkThemeEnabled ? tileStyleDark : tileStyleLight),
         ],
       );
     }
@@ -220,6 +241,8 @@ class _HomeScreenState extends State<HomeScreen> {
           itemBuilder: (BuildContext context, index) {
             if (tasks[index].type == 'Daily') {
               return OpenContainer<bool>(
+                closedColor: darkThemeEnabled ? cardColorDark : cardColorLight,
+                openColor: darkThemeEnabled ? cardColorDark : cardColorLight,
                 transitionType: _transitionType,
                 transitionDuration: Duration(seconds: 1),
                 closedShape: RoundedRectangleBorder(),
@@ -248,7 +271,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               width: MediaQuery.of(context).size.width,
                               height: 5.0,
                               decoration: BoxDecoration(
-                                  color: Colors.grey[200],
+                                  color: darkThemeEnabled
+                                      ? cardColorDark
+                                      : cardColorLight,
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20.0))),
                             ),
@@ -269,9 +294,10 @@ class _HomeScreenState extends State<HomeScreen> {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.warning),
+          Icon(Icons.warning,
+              color: darkThemeEnabled ? iconColorLight : iconColorDark),
           Text('No tasks found in the list',
-              style: TextStyle(fontSize: 14.0)),
+              style: darkThemeEnabled ? tileStyleDark : tileStyleLight),
         ],
       );
     }
@@ -284,7 +310,9 @@ class _HomeScreenState extends State<HomeScreen> {
             if (weeklyTasks[index].type == 'Weekly') {
               return OpenContainer<bool>(
                 transitionType: _transitionType,
-                transitionDuration: Duration(seconds: 2),
+                closedColor: darkThemeEnabled ? cardColorDark : cardColorLight,
+                openColor: darkThemeEnabled ? cardColorDark : cardColorLight,
+                transitionDuration: Duration(seconds: 1),
                 closedShape: RoundedRectangleBorder(),
                 closedBuilder: (BuildContext _, VoidCallback openContainer) {
                   return Column(
@@ -313,7 +341,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               width: MediaQuery.of(context).size.width,
                               height: 5.0,
                               decoration: BoxDecoration(
-                                  color: Colors.grey[200],
+                                  color: darkThemeEnabled
+                                      ? cardColorDark
+                                      : cardColorLight,
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20.0))),
                             ),
@@ -334,9 +364,10 @@ class _HomeScreenState extends State<HomeScreen> {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.warning),
+          Icon(Icons.warning,
+              color: darkThemeEnabled ? iconColorLight : iconColorDark),
           Text('No tasks found in the list',
-              style: TextStyle(fontSize: 14.0)),
+              style: darkThemeEnabled ? tileStyleDark : tileStyleLight),
         ],
       );
     }
@@ -349,7 +380,9 @@ class _HomeScreenState extends State<HomeScreen> {
             if (monthlyTasks[index].type == 'Monthly') {
               return OpenContainer<bool>(
                 transitionType: _transitionType,
-                transitionDuration: Duration(seconds: 2),
+                closedColor: darkThemeEnabled ? cardColorDark : cardColorLight,
+                openColor: darkThemeEnabled ? cardColorDark : cardColorLight,
+                transitionDuration: Duration(seconds: 1),
                 closedShape: RoundedRectangleBorder(),
                 closedBuilder: (BuildContext _, VoidCallback openContainer) {
                   return Column(
@@ -378,7 +411,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               width: MediaQuery.of(context).size.width,
                               height: 5.0,
                               decoration: BoxDecoration(
-                                  color: Colors.grey[200],
+                                  color: darkThemeEnabled
+                                      ? cardColorDark
+                                      : cardColorLight,
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20.0))),
                             ),

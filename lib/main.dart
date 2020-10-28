@@ -5,6 +5,8 @@ import 'package:task_manager/models/app_builder.dart';
 import 'package:task_manager/screens/persistent_nav_bar.dart';
 import 'package:task_manager/screens/welcome_screen.dart';
 
+import 'constants/theme.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -43,16 +45,32 @@ class _MyHomePageState extends State<MyHomePage> {
             login = value;
           }),
         });
+    getDarkThemeChoice().then((value) => {
+          if (value == true)
+            {
+              setState(() {
+                darkThemeEnabled = true;
+              }),
+            }
+        });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: darkThemeEnabled ? Colors.black : Colors.white,
       body: Center(
         child: SplashScreen(
-          title: Text('Welcome Task Manager', style: TextStyle(fontSize: 32.0)),
-          loaderColor: Colors.blue[100],
+          backgroundColor: darkThemeEnabled ? Colors.black : Colors.white ,
+          title: darkThemeEnabled
+              ? Text('Welcome Task Manager but Darker!',
+                  style: TextStyle(fontSize: 24.0, color: Colors.white))
+              : Text('Welcome Task Manager',
+                  style: darkThemeEnabled
+                      ? headerTwoStyleDark
+                      : headerTwoStyleLight),
+          loaderColor: darkThemeEnabled ? Colors.blue[100] : Colors.grey,
           seconds: 3,
           navigateAfterSeconds:
               login == true ? BottomNavBar() : WelcomeScreen(),
