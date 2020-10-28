@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:task_manager/screens/home_screen.dart';
 import 'package:task_manager/screens/settings_screen.dart';
-import 'package:task_manager/screens/tasks_screen.dart';
 
 class BottomNavBar extends StatefulWidget {
   @override
@@ -49,7 +48,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
   List<Widget> _screens() {
     return [
       HomeScreen(),
-      TasksScreen(),
       SettingsScreen(),
     ];
   }
@@ -59,12 +57,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
       PersistentBottomNavBarItem(
         icon: Icon(Icons.home),
         title: ("Dashboard"),
-        activeColor: CupertinoColors.activeBlue,
-        inactiveColor: CupertinoColors.systemGrey,
-      ),
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.dvr),
-        title: ("Tasks"),
         activeColor: CupertinoColors.activeBlue,
         inactiveColor: CupertinoColors.systemGrey,
       ),

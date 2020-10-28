@@ -34,7 +34,8 @@ dependencies:
   path_provider: 1.6.18
   intl: 0.16.1
   chips_choice: 2.0.1
-  cupertino_tabbar: 1.1.0
+  splashscreen: 1.2.0
+  shared_preferences: 0.5.12+2
 
 
 dev_dependencies:

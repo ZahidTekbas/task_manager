@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sqflite/sqflite.dart';
@@ -16,19 +17,52 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   DatabaseHelper databaseHelper = DatabaseHelper();
   List<Task> tasks;
-  int count;
+  List<Task> weeklyTasks;
+  List<Task> monthlyTasks;
+  int dailyTaskCount;
+  int weeklyTaskCount;
+  int monthlyTaskCount;
+
+  Color bulbColor = Colors.black;
+
+  @override
+  void initState() {
+    updateListView();
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant HomeScreen oldWidget) {
+    if (oldWidget != widget) {
+      updateListView();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    updateListView();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     if (tasks == null) {
       tasks = List<Task>();
     }
-    updateListView();
+    if (weeklyTasks == null) {
+      weeklyTasks = List<Task>();
+    }
+    if (monthlyTasks == null) {
+      monthlyTasks = List<Task>();
+    }
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       floatingActionButton: FloatingActionButton(
+        elevation: 8.0,
         heroTag: "btn1",
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(12))),
+            borderRadius: BorderRadius.all(Radius.circular(20))),
         child: Icon(Icons.add, size: 32.0, color: Colors.white),
         onPressed: () {
           showModalBottomSheet(
@@ -40,6 +74,8 @@ class _HomeScreenState extends State<HomeScreen> {
               context: context,
               builder: (BuildContext context) {
                 return AddTaskScreen();
+              }).then((value) => {
+                updateListView(),
               });
         },
       ),
@@ -63,6 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: const EdgeInsets.only(left: 32.0, top: 32.0),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             'Upcoming Tasks',
@@ -86,12 +123,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Card(
-                        elevation: 8.0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(12.0))),
-                        child: getList(),
-                      ),
+                          elevation: 8.0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12.0))),
+                          child: getDailyList()),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(right: 32.0, top: 16.0),
@@ -108,12 +144,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Card(
-                        elevation: 8.0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(12.0))),
-                        child: getList(),
-                      ),
+                          elevation: 8.0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12.0))),
+                          child: getWeeklyList()),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(right: 32.0, top: 16.0),
@@ -130,12 +165,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Card(
-                        elevation: 8.0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(12.0))),
-                        child: getList(),
-                      ),
+                          elevation: 8.0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12.0))),
+                          child: getMonthlyList()),
                     ),
                     SizedBox(height: 50.0),
                     Text('Built with Flutter ❤️',
@@ -152,67 +186,136 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  getList() {
+  getDailyList() {
     if (tasks.length == 0) {
+      return Row(mainAxisAlignment: MainAxisAlignment.center,children: [
+        Icon(Icons.warning),
+        Text('No tasks found in daily list', style: TextStyle(fontSize: 14.0)),
+      ],);
+    }
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: dailyTaskCount,
+          itemBuilder: (BuildContext context, index) {
+            if (tasks[index].type == 'Daily') {
+              return Column(
+                children: <Widget>[
+                  TaskTile(
+                    taskTitle: this.tasks[index].name,
+                    isChecked: false,
+                    checkboxCallback: (checkboxState) {
+                      setState(() {
+                        delete(context, this.tasks[index], databaseHelper)
+                            .then((value) => {
+                                  setState(() {
+                                    tasks.remove(this.tasks[index]);
+                                    updateListView();
+                                  }),
+                                });
+                      });
+                    },
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 5.0,
+                    decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                  ),
+                ],
+              );
+            }
+          }),
+    );
+  }
+
+  getWeeklyList() {
+    if (weeklyTasks.length == 0) {
       return Text('No Tasks');
     }
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ListView.builder(
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          return Column(
-            children: <Widget>[
-              TaskTile(
-                taskTitle: this.tasks[index].name,
-                isChecked: false,
-                checkboxCallback: (checkboxState) {
-                  setState(() {
-                    delete(context, this.tasks[index], databaseHelper);
-                    updateListView();
-                  });
-                },
-                longPressCallback: () {
-                  showDialog(
-                      context: context,
-                      child: AlertDialog(
-                        title: Row(
-                          children: <Widget>[
-                            Icon(Icons.warning),
-                            Text('Warning') // TODO: Bold Style
-                          ],
-                        ),
-                        content: Text(
-                            'Do you want to delete this task?'), // TODO: Info Style
-                        actions: <Widget>[
-                          FlatButton(
-                              onPressed: () {
-                                delete(context, tasks[index], databaseHelper);
-                                updateListView();
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('Yes')), //TODO: Choice Style
-                          FlatButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('No')) // TODO: Choice Style
-                        ],
-                      ));
-                },
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 5.0,
-                decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.all(Radius.circular(20.0))),
-              ),
-            ],
-          );
-        },
-        itemCount: count,
-      ),
+          shrinkWrap: true,
+          itemCount: weeklyTaskCount,
+          itemBuilder: (BuildContext context, index) {
+            if (weeklyTasks[index].type == 'Weekly') {
+              return Column(
+                children: <Widget>[
+                  TaskTile(
+                    taskTitle: this.weeklyTasks[index].name,
+                    isChecked: false,
+                    checkboxCallback: (checkboxState) {
+                      setState(() {
+                        delete(context, this.weeklyTasks[index], databaseHelper)
+                            .then((value) => {
+                                  setState(() {
+                                    weeklyTasks.remove(this.weeklyTasks[index]);
+
+                                    updateListView();
+                                  }),
+                                });
+                      });
+                    },
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 5.0,
+                    decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                  ),
+                ],
+              );
+            }
+          }),
+    );
+  }
+
+  getMonthlyList() {
+    if (monthlyTasks.length == 0) {
+      return Text('No Tasks');
+    }
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ListView.builder(
+          itemCount: monthlyTaskCount,
+          shrinkWrap: true,
+          itemBuilder: (BuildContext context, index) {
+            if (monthlyTasks[index].type == 'Monthly') {
+              return Column(
+                children: <Widget>[
+                  TaskTile(
+                    taskTitle: this.monthlyTasks[index].name,
+                    isChecked: false,
+                    checkboxCallback: (checkboxState) {
+                      setState(() {
+                        delete(context, this.monthlyTasks[index],
+                                databaseHelper)
+                            .then((value) => {
+                                  setState(() {
+                                    monthlyTasks
+                                        .remove(this.monthlyTasks[index]);
+
+                                    updateListView();
+                                  }),
+                                });
+                      });
+                    },
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 5.0,
+                    decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                  ),
+                ],
+              );
+            }
+          }),
     );
   }
 
@@ -222,8 +325,24 @@ class _HomeScreenState extends State<HomeScreen> {
       Future<List<Task>> todoListFuture = databaseHelper.getTodoList();
       todoListFuture.then((todoList) {
         setState(() {
-          this.tasks = todoList;
-          this.count = todoList.length;
+          todoList.forEach((element) {
+            if (element.type == 'Daily') {
+              if (tasks.any((e) => e.id == element.id) == false) {
+                this.tasks.add(element);
+              }
+            } else if (element.type == 'Weekly') {
+              if (weeklyTasks.any((e) => e.id == element.id) == false) {
+                this.weeklyTasks.add(element);
+              }
+            } else if (element.type == 'Monthly') {
+              if (monthlyTasks.any((e) => e.id == element.id) == false) {
+                this.monthlyTasks.add(element);
+              }
+            }
+          });
+          this.dailyTaskCount = tasks.length;
+          this.weeklyTaskCount = weeklyTasks.length;
+          this.monthlyTaskCount = monthlyTasks.length;
         });
       });
     });

@@ -95,9 +95,12 @@ class DatabaseHelper {
     int count =
         todoMapList.length; // Count the number of map entries in db table
 
+    print(count);
+
     List<Task> todoList = List<Task>();
     // For loop to create a 'todo List' from a 'Map List'
     for (int i = 0; i < count; i++) {
+      print(Task.fromMapObject(todoMapList[i]).type);
       todoList.add(Task.fromMapObject(todoMapList[i]));
     }
 
