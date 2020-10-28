@@ -36,6 +36,7 @@ dependencies:
   chips_choice: 2.0.1
   splashscreen: 1.2.0
   shared_preferences: 0.5.12+2
+  animated_text_kit: 2.5.1
 
 
 dev_dependencies:
