@@ -64,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {});
     }
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor:
           darkThemeEnabled ? backgroundColorDark : backgroundColorLight,
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,

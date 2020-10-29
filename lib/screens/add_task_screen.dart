@@ -57,6 +57,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
+                    style: darkThemeEnabled ? tileStyleDark : tileStyleLight,
                     controller: controllerTitle,
                     onChanged: (newText) {
                       newTaskTitle = newText;
@@ -74,6 +75,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
+                    style: darkThemeEnabled ? tileStyleDark : tileStyleLight,
                     controller: controllerDesc,
                     onChanged: (newText) {
                       newTaskDesc = newText;

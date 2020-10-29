@@ -17,7 +17,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
     });
   }
 
+  TextEditingController newNameController = TextEditingController();
   String username;
+  String newUsername;
 
   @override
   void initState() {
@@ -27,6 +29,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
           }),
         });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    newNameController.dispose();
+    super.dispose();
   }
 
   @override
@@ -59,8 +67,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     backgroundImage: NetworkImage(
                         'https://cdn4.iconfinder.com/data/icons/avatars-21/512/avatar-circle-human-male-3-512.png'),
                   ), // CachedNetworkImageProvider
-                  trailing: Icon(Icons.edit,
-                      color: darkThemeEnabled ? iconColorLight : iconColorDark),
+                  trailing: GestureDetector(
+                    onTap: () {
+                      showEditProfileNameDialog();
+                    },
+                    child: Icon(Icons.edit,
+                        color:
+                            darkThemeEnabled ? iconColorLight : iconColorDark),
+                  ),
                 ),
               ),
               Card(
@@ -84,7 +98,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         setDarkThemeChoice(value);
                         setState(() {
                           AppBuilder.of(context).rebuild();
-                          setState(() {});
                           Navigator.of(context, rootNavigator: true)
                               .pushReplacement(MaterialPageRoute(
                                   builder: (context) => MyHomePage()));
@@ -188,5 +201,84 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       ),
     );
+  }
+
+  showEditProfileNameDialog() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            backgroundColor:
+                darkThemeEnabled ? backgroundColorDark : backgroundColorLight,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            child: Container(
+              height: 200.0,
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text('Change your name to',
+                        style:
+                            darkThemeEnabled ? tileStyleDark : tileStyleLight),
+                    TextField(
+                      style: darkThemeEnabled ? tileStyleDark : tileStyleLight,
+                      controller: newNameController,
+                      onChanged: (newText) {
+                        newUsername = newText;
+                      },
+                      autofocus: true,
+                      textAlign: TextAlign.start,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: '$username',
+                        hintStyle:
+                            darkThemeEnabled ? tileStyleDark : tileStyleLight,
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        FlatButton(
+                          color:
+                              darkThemeEnabled ? fabButtonDark : fabButtonLight,
+                          child: Text('CANCEL',
+                              style: darkThemeEnabled
+                                  ? tileStyleDark
+                                  : tileStyleLight),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        FlatButton(
+                          color:
+                              darkThemeEnabled ? fabButtonDark : fabButtonLight,
+                          child: Text('OK',
+                              style: darkThemeEnabled
+                                  ? tileStyleDark
+                                  : tileStyleLight),
+                          onPressed: () {
+                            if (newNameController.text == '') {
+                            } else {
+                              setLogin(newNameController.text);
+                              setState(() {
+                                username = newNameController.text;
+                              });
+                              newNameController.clear();
+                              Navigator.pop(context);
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
   }
 }

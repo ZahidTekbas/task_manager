@@ -38,9 +38,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
         curve: Curves.ease,
       ),
       screenTransitionAnimation: ScreenTransitionAnimation(
-        // Screen transition animation on change of selected tab.
         animateTabTransition: true,
-        curve: Curves.ease,
+        curve: Curves.linear,
         duration: Duration(milliseconds: 200),
       ),
     );

@@ -2,6 +2,8 @@
 
 A new Flutter project.
 
+You may run the project with flutter run --release command to get 60 FPS animations and smooth transitions.
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.

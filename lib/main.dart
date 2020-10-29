@@ -64,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: SplashScreen(
           backgroundColor: darkThemeEnabled ? Colors.black : Colors.white ,
           title: darkThemeEnabled
-              ? Text('Welcome Task Manager but Darker!',
+              ? Text('Welcome Task Manager but Darker!', textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 24.0, color: Colors.white))
               : Text('Welcome Task Manager',
                   style: darkThemeEnabled
